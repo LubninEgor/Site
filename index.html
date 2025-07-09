@@ -8,14 +8,14 @@
 	
     <title>Скачать приложение</title>
     <style>
-        * {
+	* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #FF7F50 0%, #E9967A 100%);
+            background: linear-gradient(135deg, #f2dcc4 0%, #f2dcc4 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -54,25 +54,23 @@
             margin-bottom: 30px;
             font-size: 16px;
         }
+        /* Упрощённые стили кнопки */
         .btn-download {
             display: inline-block;
-            background: #FF7F50;
-            color: white;
+            background: #f2dcc4; /* Требуемый цвет */
+            color: #5c3a2a; /* Тёмный текст для контраста */
             text-decoration: none;
             padding: 16px 40px;
             border-radius: 50px;
             font-size: 18px;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(160, 82, 45, 0.4);
-            margin-bottom: 30px;
-            border: none;
+            margin-bottom: 15px;
             cursor: pointer;
         }
         .btn-download:hover {
-            background: #FF7F50;
+            background: #e5d0b8; /* Немного темнее при наведении */
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(160, 82, 45, 0.6);
         }
         .instructions {
             background: #f8f9fa;
@@ -104,76 +102,23 @@
 <body>
     <div class="container">
          <!-- Простая круглая иконка без обводки -->
-        <div class="app-icon">
-            <img src="ico.png" alt="Иконка приложения">
-        </div>
-        <h1>Живая история</h1>
-        <p class="version">Версия 4.0.5</p>
         
-        <a href="#" id="downloadBtn" class="btn-download">
-            Скачать APK
-        </a>
+        <h1>Живая история</h1>
         
         <div class="instructions">
-            <h3>Инструкция для установки:</h3>
+            <h3>Инструкция после установки:</h3>
             <ol>
-                <li>Нажмите "Скачать APK"</li>
-                <li>После загрузки откройте файл</li>
-                <li>Если появится предупреждение, перейдите в Настройки → Безопасность</li>
-                <li>Включите пункт "Установка из неизвестных источников"</li>
-                <li>Вернитесь и завершите установку</li>
+                <li>Запустите приложение</li>
+                <li>Изучите историческую справку о Васильево-Шайтанском заводе</li>
+                <li>На карте выберите «Фестиваль трубочек»</li>
+                <li>Доберитесь до места на карте</li>
+                <li>Сделйте фото с виртуальной трубочкой в режиме «Без ограничений» или «Без привязки к GPS»</li>
+				<li>Покажите фото нам</li>
             </ol>
         </div>
 		
-		<div class="instructions">
-            <h3>Инструкция для установки:</h3>
-            <ol>
-                <li>Нажмите "Скачать APK"</li>
-                <li>После загрузки откройте файл</li>
-                <li>Если появится предупреждение, перейдите в Настройки → Безопасность</li>
-                <li>Включите пункт "Установка из неизвестных источников"</li>
-                <li>Вернитесь и завершите установку</li>
-            </ol>
-        </div>
-        
         <p class="footer">команда "Человеки". Все права защищены. 2025г </p>
     </div>
 
-    <script>
-        // Автоматическое определение последней версии
-        const repo = 'Fest_Site_1'; // Замените на имя репозитория
-        const user = 'LubninEgor';    // Замените на ваш GitHub username
-        
-        // URL для получения последнего релиза
-        const latestReleaseUrl = `https://api.github.com/repos/${user}/${repo}/releases/latest`;
-        
-        // Найти кнопку скачивания
-        const downloadBtn = document.getElementById('downloadBtn');
-        
-        // Получить информацию о последнем релизе
-        fetch(latestReleaseUrl)
-            .then(response => response.json())
-            .then(data => {
-                // Найти APK-файл в релизе
-                const asset = data.assets.find(a => a.name.endsWith('.apk'));
-                
-                if (asset) {
-                    // Обновить ссылку на скачивание
-                    downloadBtn.href = asset.browser_download_url;
-                    
-                    // Обновить версию на странице
-                    const versionElement = document.querySelector('.version');
-                    versionElement.textContent = `Версия ${data.tag_name} • ${new Date(data.published_at).toLocaleDateString()}`;
-                } else {
-                    downloadBtn.textContent = 'APK не найден';
-                    downloadBtn.style.backgroundColor = '#ff6b6b';
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                downloadBtn.textContent = 'Ошибка загрузки';
-                downloadBtn.style.backgroundColor = '#ff6b6b';
-            });
-    </script>
 </body>
 </html>
