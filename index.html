@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Фавиконка -->
+    <link rel="icon" href="ico.png" type="image/png">
+	
+    <title>Скачать приложение</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FF7F50 0%, #E9967A 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+        }
+        /* Стили для круглой иконки без обводки */
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%; /* Круглая форма */
+            overflow: hidden; /* Обрезаем углы */
+        }
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Заполнение пространства */
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .version {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .btn-download {
+            display: inline-block;
+            background: #FF7F50;
+            color: white;
+            text-decoration: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(160, 82, 45, 0.4);
+            margin-bottom: 30px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-download:hover {
+            background: #FF7F50;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(160, 82, 45, 0.6);
+        }
+        .instructions {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+            margin-top: 20px;
+        }
+        .instructions h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .instructions ol {
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+            color: #555;
+            line-height: 1.5;
+        }
+        .footer {
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+         <!-- Простая круглая иконка без обводки -->
+        <div class="app-icon">
+            <img src="ico.png" alt="Иконка приложения">
+        </div>
+        <h1>Живая история</h1>
+        <p class="version">Версия 4.0.5</p>
+        
+        <a href="#" id="downloadBtn" class="btn-download">
+            Скачать APK
+        </a>
+        
+        <div class="instructions">
+            <h3>Инструкция для установки:</h3>
+            <ol>
+                <li>Нажмите "Скачать APK"</li>
+                <li>После загрузки откройте файл</li>
+                <li>Если появится предупреждение, перейдите в Настройки → Безопасность</li>
+                <li>Включите пункт "Установка из неизвестных источников"</li>
+                <li>Вернитесь и завершите установку</li>
+            </ol>
+        </div>
+		
+		<div class="instructions">
+            <h3>Инструкция для установки:</h3>
+            <ol>
+                <li>Нажмите "Скачать APK"</li>
+                <li>После загрузки откройте файл</li>
+                <li>Если появится предупреждение, перейдите в Настройки → Безопасность</li>
+                <li>Включите пункт "Установка из неизвестных источников"</li>
+                <li>Вернитесь и завершите установку</li>
+            </ol>
+        </div>
+        
+        <p class="footer">команда "Человеки". Все права защищены. 2025г </p>
+    </div>
+
+    <script>
+        // Автоматическое определение последней версии
+        const repo = 'Fest_Site_1'; // Замените на имя репозитория
+        const user = 'LubninEgor';    // Замените на ваш GitHub username
+        
+        // URL для получения последнего релиза
+        const latestReleaseUrl = `https://api.github.com/repos/${user}/${repo}/releases/latest`;
+        
+        // Найти кнопку скачивания
+        const downloadBtn = document.getElementById('downloadBtn');
+        
+        // Получить информацию о последнем релизе
+        fetch(latestReleaseUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Найти APK-файл в релизе
+                const asset = data.assets.find(a => a.name.endsWith('.apk'));
+                
+                if (asset) {
+                    // Обновить ссылку на скачивание
+                    downloadBtn.href = asset.browser_download_url;
+                    
+                    // Обновить версию на странице
+                    const versionElement = document.querySelector('.version');
+                    versionElement.textContent = `Версия ${data.tag_name} • ${new Date(data.published_at).toLocaleDateString()}`;
+                } else {
+                    downloadBtn.textContent = 'APK не найден';
+                    downloadBtn.style.backgroundColor = '#ff6b6b';
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                downloadBtn.textContent = 'Ошибка загрузки';
+                downloadBtn.style.backgroundColor = '#ff6b6b';
+            });
+    </script>
+</body>
+</html>
